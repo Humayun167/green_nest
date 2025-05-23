@@ -11,10 +11,11 @@ export const AppContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isSeller, setIsSeller] = useState(false);
-  const [showUserLogin, setShowUserLogin] = useState(true);
+  const [showUserLogin, setShowUserLogin] = useState(false);
   const [product, setProduct] = useState([]);
 
   const [cartItems, setCartItems] = useState({});
+  const [searchQuery, setSearchQuery] = useState({});
 
   // Fetch All products
   const fetchProducts = async () => {
@@ -74,7 +75,10 @@ export const AppContextProvider = ({ children }) => {
     addToCart,
     updateCartItem,
     removeFromCart,
-    cartItems
+    cartItems,
+    searchQuery,
+    setSearchQuery,
+
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
