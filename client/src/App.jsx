@@ -1,12 +1,14 @@
+import React from 'react';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import Home from './pages/Home';
+
 import Footer from './components/Footer';
 import { useAppContext } from './context/AppContext';
 import Login from './components/Login';
-import AllProducts from './components/AllProducts';
-import ProductsCategory from './pages/ProductsCategory';
+import AllProducts from './pages/AllProducts';
+import ProductCategory from './pages/ProductCategory';
 
 const App = () => {
 
@@ -23,7 +25,8 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home></Home>}/>
           <Route path='/products' element={<AllProducts/>}/>
-          <Route path='/products/:category' element={<ProductsCategory/>}/>
+          <Route path='/products/:category' element={<ProductCategory/>}/>
+          
         </Routes>
        </div>
       {!isSellerPath && <Footer/>}

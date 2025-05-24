@@ -12,14 +12,14 @@ export const AppContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isSeller, setIsSeller] = useState(false);
   const [showUserLogin, setShowUserLogin] = useState(false);
-  const [product, setProduct] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const [cartItems, setCartItems] = useState({});
   const [searchQuery, setSearchQuery] = useState({});
 
   // Fetch All products
   const fetchProducts = async () => {
-    setProduct(dummyProducts);
+    setProducts(dummyProducts);
   };
 
   // Add product to cart
@@ -70,7 +70,7 @@ export const AppContextProvider = ({ children }) => {
     setIsSeller,
     showUserLogin,
     setShowUserLogin,
-    product,
+    products,
     currency,
     addToCart,
     updateCartItem,

@@ -1,22 +1,22 @@
-import React from 'react';
+
 import { useAppContext } from '../context/AppContext';
 import { useParams } from 'react-router-dom';
 import { categories } from '../assets/assets';
 import ProductCard from '../components/ProductCard';
 
-const ProductsCategory = () => {
+const ProductCategory = () => {
 
     const {products} = useAppContext();
-    const {category} = useParams();
+    const { category} = useParams();
 
-    const searchCategory = categories.find((item)=> item.path.toLowerCase()===category)
+    const searchCategory = categories.find((item)=> item.path.toLowerCase() === category.toLowerCase());
  
-    const filteredProducts = products.filter((product)=>product.category.toLowerCase()===category)
+    const filteredProducts = products.filter((product)=>product.category.toLowerCase() === category.toLowerCase());
     return (
         <div className='mt-16'>
-            {searchCategory && (
+        {searchCategory && (
                 <div className='flex flex-col items-end w-max'>
-                    <p className='text-2xl font-medium'>{searchCategory.text.toLowerCase()}</p>
+                    <p className='text-2xl font-medium'>{searchCategory.text.toUpperCase()}</p>
                     <div className='w-16 h-0.5 bg-primary rounded-full'></div>
                 </div>
             )}
@@ -29,11 +29,13 @@ const ProductsCategory = () => {
                     </div>
                 ):(
                     <div className='flex items-center justify-center h-[60vh]'>
-                        <p className='text-2xl font-medium text-primary'>No product in this categoris</p>
+                        <p className='text-2xl font-medium text-primary'>No product in this category</p>
                     </div>
                 )}
         </div>
     );
 };
 
-export default ProductsCategory;
+export default ProductCategory;
+
+   

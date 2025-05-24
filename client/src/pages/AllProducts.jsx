@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
-import ProductCard from './ProductCard';
+import ProductCard from './../components/ProductCard';
 
 const AllProducts = () => {
 
-    const {product,searchQuery} = useAppContext();
+    const {products ,searchQuery} = useAppContext();
     const [filteredProducts, setFilteredProducts] = useState([])
 
 
     useEffect(()=>{
         if(searchQuery.length>0){
-            setFilteredProducts(product.filter(
+            setFilteredProducts(products.filter(
                 product => product.name.toLowerCase().includes(searchQuery.toLowerCase())
             ))}else{
-setFilteredProducts(product)
+setFilteredProducts(products)
             }
-         },[product, searchQuery])
+         },[products, searchQuery])
 
     return (
         <div className='mt-16 flex flex-col'>
