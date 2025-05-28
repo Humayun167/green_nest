@@ -26,13 +26,13 @@ const SellerLayout = () => {
                     <img className="cursor-pointer w-34 md:w-38" src={assets.logo} alt="logo" />
                 </Link>
                 <div className="flex items-center gap-5 text-gray-500">
-                    <p>Hi! Admin</p>
+                    <p>Hi! Seller</p>
                     <button onClick={logout} className='border rounded-full text-sm px-4 py-1'>Logout</button>
                 </div>
             </div>
 
             <div className="flex">
-               <div className="md:w-64 w-16 border-r h-[550px] text-base border-gray-300 pt-4 flex flex-col transition-all duration-300">
+               <div className="md:w-64 w-16 border-r h-[95vh    ] text-base border-gray-300 pt-4 flex flex-col  duration-300">
                 {sidebarLinks.map((item) => (
                     <NavLink  to={item.path} key={item.name} end={item.path ==="/seller"}
                         className={({isActive})=>`flex items-center py-3 px-4 gap-3 
