@@ -29,7 +29,7 @@ const productSchema = new mongoose.Schema({
         type: Object,
         default: {},
     },
-    inStack: {
+    inStock: {
         type: Boolean,
         default: true,
     },
