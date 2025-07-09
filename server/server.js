@@ -6,7 +6,6 @@ import 'dotenv/config';
 import userRouter from './routes/userRoute.js';
 import sellerRouter from './routes/sellerRoute.js';
 import connectCloudinary from './configs/cloudinary.js';
-// import productRouter from './routes/productRoute.js';
 import productRouter from './routes/productRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import addressRouter from './routes/addressRoute.js';
@@ -21,15 +20,13 @@ await connectDB();
 await connectCloudinary();
 
 // Allow multiple origin
-
-
 const allowedOrigins = ['http://localhost:5173']
 
 
 // Middleware configaration
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({Origin: allowedOrigins, credentials:true}));
+app.use(cors({origin: allowedOrigins, credentials:true}));
 
 
 app.get('/',(req,res)=> res.send("Api is working"));

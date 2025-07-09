@@ -1,15 +1,14 @@
-
 import User from './../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-// Register users : /api/user/register
 
+// Register users : /api/user/register
 export const register =async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
         if(!name || !email || !password) {
-            return res.json({success: false, message: "All fields are required"});
+            return res.json({success: false, message: 'All fields are required'});
         }
 
 
@@ -23,12 +22,12 @@ export const register =async (req, res) => {
 
 
         const user =await User.create({
-            name,
+            name, 
             email,
             password: hashedPassword
         });
 
-        const token = jwt.sign({id:user._id}, process.env.JWT_SECRET,{expiresIn:'7d'} )
+        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET,{expiresIn:'7d'} )
 
         res.cookie('token', token, {
             httpOnly: true,
@@ -57,7 +56,7 @@ export const login = async (req, res) => {
         const user = await User.findOne({email});
 
         if(!user) {
-            return res.json({success: false, message: "User does not exist"});
+            return res.json({success: false, message: "invalid email or pssword"});
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch) {
@@ -82,18 +81,18 @@ export const login = async (req, res) => {
     }
 } 
 
-// Check auth status : /api/user/is-auth
 
-export const isAuth = async (req, res) => {
+// Get user details : /api/user/isAuth
+export const isAuth = async (req, res) =>{
     try {
-        const user = await User.findById(req.userId).select('-password');
+        const { userId } = req;
+        const user = await User.findById(userId).select("-password");
         return res.json({ success: true, user });
     } catch (error) {
-        console.error(error.message);
-        return res.json({ success: false, message: error.message });
+        console.log( error.message);
+        res.json({ success: false, message: error.message });
     }
 }
-
 // Logout user : /api/user/logout
 
 export const logout = async (req, res) => {
