@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { dummyProducts } from "../assets/assets";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -125,12 +124,34 @@ export const AppContextProvider = ({ children }) => {
     return Math.floor(totalAmount * 100) / 100; // Round to 2 decimal places  
   }
 
+  // Clear cart
+  const clearCart = () => {
+    setCartItems({});
+    toast.success("Cart cleared");
+  };
+
 
   useEffect(() => {
     fetchUser()
     fetchSeller();
     fetchProducts();
-  });
+  },[]);
+// update database cart items
+  useEffect(()=>{
+   const updateCart = async()=>{
+    try{
+      const {data} = await axios.post('/api/cart/update',{cartItems});
+      if(!data.success){
+        toast.error(data.message);
+      }
+    }catch(error){
+        toast.error(error.message);
+    }
+    }
+    if(user){
+    updateCart();
+    }
+  },[cartItems])
 
   const value = {
     navigate,
@@ -151,7 +172,8 @@ export const AppContextProvider = ({ children }) => {
     getCartCount,
     getCartAmount,
     axios,
-    fetchProducts
+    fetchProducts,
+    clearCart
 
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
