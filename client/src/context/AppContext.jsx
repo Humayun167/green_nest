@@ -124,12 +124,6 @@ export const AppContextProvider = ({ children }) => {
     return Math.floor(totalAmount * 100) / 100; // Round to 2 decimal places  
   }
 
-  // Clear cart
-  const clearCart = () => {
-    setCartItems({});
-    toast.success("Cart cleared");
-  };
-
 
   useEffect(() => {
     fetchUser()
@@ -172,8 +166,7 @@ export const AppContextProvider = ({ children }) => {
     getCartCount,
     getCartAmount,
     axios,
-    fetchProducts,
-    clearCart
+    fetchProducts
 
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

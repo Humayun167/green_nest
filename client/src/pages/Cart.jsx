@@ -15,7 +15,6 @@ const Cart = () => {
     getCartAmount,
     axios,
     user,
-    clearCart,
   } = useAppContext();
   const [cartArray, setCartArray] = useState([]);
   const [addresses, setAddresses] = useState([]);
@@ -35,7 +34,7 @@ const Cart = () => {
 
   const getUserAddress = async () => {
     try {
-      const { data } = await axios.get("/api/address/get");
+      const { data } = await axios.get("/api/address");
       if (data.success) {
         setAddresses(data.addresses);
         if (data.addresses.length > 0) {
@@ -49,45 +48,7 @@ const Cart = () => {
     }
   };
 
-  const placeOrder = async () => {
-    try {
-      if (!selectedAddress) {
-        toast.error("Please select a delivery address");
-        return;
-      }
-
-      if (cartArray.length === 0) {
-        toast.error("Your cart is empty");
-        return;
-      }
-
-      // Convert cart items to the format expected by the API
-      const orderItems = cartArray.map(product => ({
-        product: product._id,
-        quantity: product.quantity
-      }));
-
-      const orderData = {
-        items: orderItems,
-        address: selectedAddress._id
-      };
-
-      const { data } = await axios.post("/api/order/cod", orderData);
-      
-      if (data.success) {
-        toast.success("Order placed successfully!");
-        // Clear cart after successful order
-        clearCart();
-        // Navigate to orders page or home
-        navigate("/orders");
-        scrollTo(0, 0);
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error(error.message || "Failed to place order");
-    }
-  };
+  const placeOrder = async () => {};
 
   useEffect(() => {
     if (products.length > 0 && cartItems) {
@@ -219,14 +180,14 @@ const Cart = () => {
               <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full">
                 {addresses.map((address, index) => (
                   <p
-                    key={index}
                     onClick={() => {
                       setSelectedAddress(address);
                       setShowAddress(false);
                     }}
-                    className="text-gray-500 p-2 hover:bg-gray-100 cursor-pointer"
+                    className="text-gray-500 p-2 hover:bg-gray-100"
                   >
-                    {address.street}, {address.city}, {address.state}, {address.country}
+                    {address.street}, {address.city}, {address.state},
+                    {address.country}`
                   </p>
                 ))}
                 <p

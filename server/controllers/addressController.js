@@ -21,7 +21,7 @@ export const addAddress = async(req,res)=>{
 
 export const getAddress = async(req,res)=>{
     try {
-        const userId = req.userId; // Get userId from auth middleware
+        const {userId} = req.body
         const addresses = await Address.find({userId});
         res.json({success:true,addresses});
     } catch (error) {
