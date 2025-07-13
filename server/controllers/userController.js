@@ -1,6 +1,8 @@
 import User from './../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import Order from '../models/Order.js';
+import {v2 as cloudinary} from 'cloudinary';
 
 // Register users : /api/user/register
 export const register =async (req, res) => {
@@ -39,7 +41,7 @@ export const register =async (req, res) => {
 
         res.cookie('token', token, cookieOptions);
 
-        return res.json({success: true, user:{email:user.email,name:user.name}});
+        return res.json({success: true, user:{email:user.email,name:user.name,profileImage:user.profileImage}});
 
     } catch (error) {
         console.error( error.message);
@@ -78,7 +80,7 @@ export const login = async (req, res) => {
 
         res.cookie('token', token, cookieOptions);
 
-        return res.json({success: true, user:{email:user.email,name:user.name}});
+        return res.json({success: true, user:{email:user.email,name:user.name,profileImage:user.profileImage}});
 
         
     } catch (error) {
@@ -117,3 +119,136 @@ export const logout = async (req, res) => {
           return res.json({success: false, message: error.message});
     }
 }
+
+// Update user profile : /api/user/update-profile
+export const updateProfile = async (req, res) => {
+    try {
+        const { userId } = req;
+        const { name, email, profileImage } = req.body;
+
+        if (!name || !email) {
+            return res.json({ success: false, message: 'Name and email are required' });
+        }
+
+        // Check if email is already taken by another user
+        const existingUser = await User.findOne({ email, _id: { $ne: userId } });
+        if (existingUser) {
+            return res.json({ success: false, message: 'Email is already taken by another user' });
+        }
+
+        const updateData = { name, email };
+        if (profileImage) {
+            updateData.profileImage = profileImage;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            updateData,
+            { new: true }
+        ).select("-password");
+
+        return res.json({ 
+            success: true, 
+            message: 'Profile updated successfully',
+            user: updatedUser 
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        return res.json({ success: false, message: error.message });
+    }
+};
+
+// Update user password : /api/user/update-password
+export const updatePassword = async (req, res) => {
+    try {
+        const { userId } = req;
+        const { currentPassword, newPassword } = req.body;
+
+        if (!currentPassword || !newPassword) {
+            return res.json({ success: false, message: 'Current password and new password are required' });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.json({ success: false, message: 'User not found' });
+        }
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.json({ success: false, message: 'Current password is incorrect' });
+        }
+
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+        await User.findByIdAndUpdate(userId, { password: hashedNewPassword });
+
+        return res.json({ 
+            success: true, 
+            message: 'Password updated successfully'
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        return res.json({ success: false, message: error.message });
+    }
+};
+
+// Get user order count : /api/user/order-count
+export const getUserOrderCount = async (req, res) => {
+    try {
+        const { userId } = req;
+        
+        const orderCount = await Order.countDocuments({
+            userId,
+            $or: [{ paymentType: "COD" }, { isPaid: true }]
+        });
+
+        return res.json({ 
+            success: true, 
+            orderCount 
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        return res.json({ success: false, message: error.message });
+    }
+};
+
+// Upload profile image : /api/user/upload-image
+export const uploadProfileImage = async (req, res) => {
+    try {
+        const { userId } = req;
+        
+        if (!req.file) {
+            return res.json({ success: false, message: 'No image file provided' });
+        }
+
+        // Upload to cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            resource_type: 'image',
+            folder: 'user_profiles', // organize images in a folder
+            transformation: [
+                { width: 400, height: 400, crop: 'fill' }, // resize and crop to square
+                { quality: 'auto', fetch_format: 'auto' } // optimize quality and format
+            ]
+        });
+
+        // Update user profile image
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { profileImage: result.secure_url },
+            { new: true }
+        ).select("-password");
+
+        return res.json({ 
+            success: true, 
+            message: 'Profile image uploaded successfully',
+            user: updatedUser,
+            imageUrl: result.secure_url
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        return res.json({ success: false, message: error.message });
+    }
+};

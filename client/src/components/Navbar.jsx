@@ -59,8 +59,17 @@ if(searchQuery.length>0){
                 </button>)
                 :(
                     <div className='relative group'>
-                        <img src={assets.profile_icon} className='w-10 h-10' alt="" />
+                        <img 
+                            src={user.profileImage || assets.profile_icon} 
+                            className='w-10 h-10 rounded-full object-cover border-2 border-gray-200' 
+                            alt="Profile"
+                            onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = assets.profile_icon;
+                            }}
+                        />
                         <ul className='hidden group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5 w-30 rounded-md text-sm z-40'>
+                            <li onClick={()=> navigate("profile")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>Profile</li>
                             <li onClick={()=> navigate("my-orders")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Order</li>
                             <li onClick={logout} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>Logut</li>
                         </ul>
@@ -88,7 +97,10 @@ if(searchQuery.length>0){
                 <NavLink onClick={()=>setOpen(false)} to='/'>Home</NavLink>
                 <NavLink onClick={()=>setOpen(false)} to='/products'>All Product</NavLink>
                 {user && 
-                   <NavLink onClick={()=>setOpen(false)} to='/my-order'>My order</NavLink>
+                   <>
+                   <NavLink onClick={()=>setOpen(false)} to='/profile'>Profile</NavLink>
+                   <NavLink onClick={()=>setOpen(false)} to='/my-orders'>My Orders</NavLink>
+                   </>
                 }
                 <NavLink onClick={()=>setOpen(false)} to='/contact'>Contact</NavLink>
                 
