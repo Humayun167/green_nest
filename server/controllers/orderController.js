@@ -7,12 +7,13 @@ import Product from "../models/product.js";
 
 export const placeOrderCOD = async (req, res) => {
     try {
-       const { userId,items, address} = req.body;
+       const { items, address } = req.body;
+       const userId = req.userId;
         if(!address ||items.length ===0 ){
             return res.json({ success: false, message: " invalid data" });
         }
         let amount = await items.reduce(async(acc,item)=>{
-           const product = await Product.findById(item.product);
+           const product = await Product.findById(item.productId);
            return (await acc)+ product.offerPrice * item.quantity;
         },0) 
         // AAdd tax charge 
@@ -36,11 +37,11 @@ export const placeOrderCOD = async (req, res) => {
 
 export const getUserOrders = async (req, res) => {
       try {
-         const { userId } = req.body;
+         const userId = req.userId;
          const orders = await Order.find({
             userId,
             $or:[{paymentType: "COD"},{isPaid:true}]
-         }).populate("items.product address").sort({createdAt:-1});
+         }).populate("items.productId address").sort({createdAt:-1});
          return res.json({ success: true, orders });
       } catch (error) {
            res.json({ success: false, message: error.message });
@@ -51,7 +52,7 @@ export const getAllOrders = async (req, res) => {
     try {
          const orders = await Order.find({
             $or:[{paymentType: "COD"},{isPaid:true}]
-         }).populate("items.product address").sort({createdAt:-1});
+         }).populate("items.productId address").sort({createdAt:-1});
           res.json({ success: true, orders });
       } catch (error) {
            res.json({ success: false, message: error.message });

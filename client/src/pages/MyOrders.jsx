@@ -43,11 +43,11 @@ const MyOrders = () => {
                         >
                             <div className="flex items-center mb-4 md:mb-0">
                                 <div className="bg-primary/10 p-4 rounded-lg">
-                                    <img src={item.product.image[0]} alt="" className="w-16 h-16" />
+                                    <img src={item.productId.image} alt="" className="w-16 h-16" />
                                 </div>
                                 <div className="ml-4">
-                                    <h2 className="text-xl font-medium text-gray-800">{item.product.name}</h2>
-                                    <p>{item.product.category}</p>
+                                    <h2 className="text-xl font-medium text-gray-800">{item.productId.name}</h2>
+                                    <p>{item.productId.category}</p>
                                 </div>
                             </div>
 
@@ -57,7 +57,7 @@ const MyOrders = () => {
                                 <p>Date:{new Date(order.createdAt).toLocaleString()}</p>
                             </div>
                             <p className="text-primary text-lg font-medium">
-                                   Amount: {currency}{item.product.offerPrice * item.quantity}
+                                   Amount: {currency}{item.productId.offerPrice * item.quantity}
                             </p>
                         </div>
                     ))}

@@ -132,7 +132,7 @@ const AddAddress = () => {
                     </form>
 
                 </div>
-                <img src={assets.add_address_iamge} alt="Add Address" />
+                <img src={assets.add_address_image} alt="Add Address" />
 
             </div>
         </div>

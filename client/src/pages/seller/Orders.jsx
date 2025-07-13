@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { assets, dummyOrders } from '../../assets/assets';
+import toast from 'react-hot-toast';
 
 const Orders = () => {
      const {currency,axios} = useAppContext()
@@ -8,14 +9,18 @@ const Orders = () => {
 
     const fetchOrders = async()=>{
        try {
+        console.log('Fetching orders...');
         const {data} = await axios.get('/api/order/seller')
             if (data.success) {
+                console.log('Orders fetched successfully:', data.orders);
                 setOrders(data.orders);
                 
             }else{
+                console.log('Failed to fetch orders:', data.message);
                 toast.error(data.message);
             }
        } catch (error) {
+           console.log('Error fetching orders:', error);
            toast.error(error.message);
        }
     }
@@ -28,7 +33,12 @@ const Orders = () => {
         <div className='no-scrollbar flex-1 h-[95vh] overflow-y-scroll '>
         <div className="md:p-10 p-4 space-y-4 ">
             <h2 className="text-lg font-medium">Orders List</h2>
-            {orders.map((order, index) => (
+            {orders.length === 0 ? (
+                <div className="text-center text-gray-500 py-8">
+                    <p>No orders found.</p>
+                </div>
+            ) : (
+                orders.map((order, index) => (
                 <div key={index} className="flex flex-col md:grid  md:items-center md:flex-row  gap-5 p-5 justify-between max-w-4xl rounded-md border border-gray-300 ">
                     <div className="flex items-center gap-7">
                         <div className="flex gap-5 max-w-80">
@@ -37,7 +47,7 @@ const Orders = () => {
                             {order.items.map((item, index) => (
                                 <div key={index} className="flex flex-col ">
                                     <p className="font-medium">
-                                        {item.product.name}{" "} <span className="text-primary ">x {item.quantity}</span>
+                                        {item.productId.name}{" "} <span className="text-primary ">x {item.quantity}</span>
                                     </p>
                                 </div>
                             ))}
@@ -63,7 +73,8 @@ const Orders = () => {
                     </div>
                     </div>
                 </div>
-            ))}
+                ))
+            )}
         </div>
         </div>
     );

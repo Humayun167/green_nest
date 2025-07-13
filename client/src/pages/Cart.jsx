@@ -34,7 +34,7 @@ const Cart = () => {
 
   const getUserAddress = async () => {
     try {
-      const { data } = await axios.get("/api/address");
+      const { data } = await axios.get("/api/address/get");
       if (data.success) {
         setAddresses(data.addresses);
         if (data.addresses.length > 0) {
@@ -48,7 +48,49 @@ const Cart = () => {
     }
   };
 
-  const placeOrder = async () => {};
+  const placeOrder = async () => {
+    try {
+      if (!selectedAddress) {
+        toast.error("Please select a delivery address");
+        return;
+      }
+
+      if (!user) {
+        toast.error("Please login to place order");
+        return;
+      }
+
+      if (getCartCount() === 0) {
+        toast.error("Your cart is empty");
+        return;
+      }
+
+      // Prepare order items
+      const items = cartArray.map((product) => ({
+        productId: product._id,
+        quantity: product.quantity,
+      }));
+
+      const orderData = {
+        items: items,
+        address: selectedAddress._id,
+      };
+
+      const { data } = await axios.post("/api/order/cod", orderData);
+
+      if (data.success) {
+        toast.success("Order placed successfully!");
+        // Clear cart after successful order
+        // You might want to implement a clearCart function in your context
+        navigate("/my-orders"); // Navigate to orders page
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error("Order placement error:", error);
+      toast.error(error.response?.data?.message || "Failed to place order");
+    }
+  };
 
   useEffect(() => {
     if (products.length > 0 && cartItems) {
@@ -180,14 +222,15 @@ const Cart = () => {
               <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full">
                 {addresses.map((address, index) => (
                   <p
+                    key={index}
                     onClick={() => {
                       setSelectedAddress(address);
                       setShowAddress(false);
                     }}
-                    className="text-gray-500 p-2 hover:bg-gray-100"
+                    className="text-gray-500 p-2 hover:bg-gray-100 cursor-pointer"
                   >
                     {address.street}, {address.city}, {address.state},
-                    {address.country}`
+                    {address.country}
                   </p>
                 ))}
                 <p
