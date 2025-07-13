@@ -26,8 +26,7 @@ import bottom_banner_image from "./bottom_banner_image.png";
 import bottom_banner_image_sm from "./bottom_banner_image_sm.png";
 import add_address_image from "./add_address_image.svg";
 import organic_vegitable_image from "./organic_vegitable_image.png";
-import fresh_fruits_image from "./fresh_fruits_image.png";
-import bottles_image from "./bottles_image.png";
+import fresh_fruits_image from "./fruit.png";
 import maggi_image from "./maggi_image.png";
 import dairy_product_image from "./dairy_product_image.png";
 import bakery_image from "./bakery_image.png";
@@ -69,7 +68,11 @@ import vanilla_muffins_image from "./vanilla_muffins_image.png";
 import quinoa_image from "./quinoa_image.png";
 import brown_rice_image from "./brown_rice_image.png";
 import barley_image from "./barley_image.png";
-
+import hrab from './HERBS.png'
+import indoor from './indor_Plant.png'
+import bonsai from './bonsai.png'
+import flower from './flower.png'
+import vegi from './tomato.png'
 export const assets = {
   logo,
   search_icon,
@@ -102,27 +105,27 @@ export const assets = {
 
 export const categories = [
   {
-    text: "Organic veggies",
-    path: "Vegetables",
-    image: organic_vegitable_image,
+    text: "Flower",
+    path: "flower",
+    image: flower,
     bgColor: "#FEF6DA",
   },
   {
-    text: "Fresh Fruits",
+    text: "Fruits",
     path: "Fruits",
     image: fresh_fruits_image,
     bgColor: "#FEE0E0",
   },
   {
-    text: "Cold Drinks",
-    path: "Drinks",
-    image: bottles_image,
+     text: "Indoor Plants",
+    path: "Indoor",
+    image: indoor,
     bgColor: "#F0F5DE",
   },
   {
-    text: "Instant Food",
-    path: "Instant",
-    image: maggi_image,
+    text: "Vegetable Plants",
+    path: "Vegetable",
+    image: vegi,
     bgColor: "#E1F5EC",
   },
   {
@@ -132,15 +135,15 @@ export const categories = [
     bgColor: "#FEE6CD",
   },
   {
-    text: "Bakery & Breads",
-    path: "Bakery",
-    image: bakery_image,
+    text: "Bonsai Trees",
+    path: "Bonsai",
+    image: bonsai,
     bgColor: "#E0F6FE",
   },
   {
-    text: "Grains & Cereals",
-    path: "Grains",
-    image: grain_image,
+    text: "Herbs & Medicinal",
+    path: "Herbs",
+    image: hrab,
     bgColor: "#F1E3F9",
   },
 ];
