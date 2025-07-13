@@ -70,8 +70,8 @@ import brown_rice_image from "./brown_rice_image.png";
 import barley_image from "./barley_image.png";
 import hrab from './HERBS.png'
 import indoor from './indor_Plant.png'
-import bonsai from './bonsai.png'
-import flower from './flower.png'
+import bonsai from './BONSAI.png'
+import flower from './Flower.png'
 import vegi from './tomato.png'
 export const assets = {
   logo,
