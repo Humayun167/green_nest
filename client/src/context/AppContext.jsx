@@ -6,6 +6,30 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 
+// Add axios interceptor to include Authorization header as fallback
+axios.interceptors.request.use(
+  (config) => {
+    // Get token from localStorage as fallback for cross-origin cookie issues
+    const sellerToken = localStorage.getItem('sellerToken');
+    const userToken = localStorage.getItem('userToken');
+    
+    // Add seller token to header if making seller-related requests
+    if (sellerToken && config.url.includes('/seller')) {
+      config.headers.Authorization = `Bearer ${sellerToken}`;
+    }
+    
+    // Add user token to header if making user-related requests  
+    if (userToken && config.url.includes('/user')) {
+      config.headers.Authorization = `Bearer ${userToken}`;
+    }
+    
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {

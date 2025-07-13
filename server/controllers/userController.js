@@ -29,12 +29,15 @@ export const register =async (req, res) => {
 
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET,{expiresIn:'7d'} )
 
-        res.cookie('token', token, {
+        const cookieOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'strict', // CSRF protection
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days       
-        });
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Allow cross-site cookies in production
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+            domain: process.env.NODE_ENV === 'production' ? undefined : undefined // Let browser handle domain       
+        };
+
+        res.cookie('token', token, cookieOptions);
 
         return res.json({success: true, user:{email:user.email,name:user.name}});
 
@@ -65,12 +68,15 @@ export const login = async (req, res) => {
 
         const token = jwt.sign({id:user._id}, process.env.JWT_SECRET,{expiresIn:'7d'} )
 
-        res.cookie('token', token, {
+        const cookieOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'strict', // CSRF protection
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days       
-        });
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Allow cross-site cookies in production
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+            domain: process.env.NODE_ENV === 'production' ? undefined : undefined // Let browser handle domain       
+        };
+
+        res.cookie('token', token, cookieOptions);
 
         return res.json({success: true, user:{email:user.email,name:user.name}});
 
@@ -97,11 +103,14 @@ export const isAuth = async (req, res) =>{
 
 export const logout = async (req, res) => {
     try {
-        res.clearCookie('token', {
+        const cookieOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'strict', // CSRF protection
-        });
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Allow cross-site cookies in production
+            domain: process.env.NODE_ENV === 'production' ? undefined : undefined // Let browser handle domain
+        };
+
+        res.clearCookie('token', cookieOptions);
         return res.json({success: true, message: "User logged out successfully"});
     } catch (error) {
           console.error( error.message);

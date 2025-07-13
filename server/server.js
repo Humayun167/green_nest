@@ -20,13 +20,37 @@ await connectDB();
 await connectCloudinary();
 
 // Allow multiple origin
-const allowedOrigins = ['http://localhost:5173','https://green-nest-frontend.vercel.app']
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://green-nest-frontend.vercel.app',
+    process.env.FRONTEND_URL // Add environment variable for dynamic frontend URL
+].filter(Boolean); // Filter out undefined values
 
 
 // Middleware configaration
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({origin: allowedOrigins, credentials:true}));
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        
+        // Also allow any vercel deployment URLs
+        if (origin.includes('.vercel.app')) {
+            return callback(null, true);
+        }
+        
+        return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+}));
 
 
 app.get('/',(req,res)=> res.send("Api is working"));

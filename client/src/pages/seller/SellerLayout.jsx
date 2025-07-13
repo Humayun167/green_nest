@@ -17,13 +17,20 @@ const SellerLayout = () => {
        try {
         const {data} = await axios.get('/api/seller/logout');
         if(data.success){
+            // Clear localStorage flags
+            localStorage.removeItem('sellerLoggedIn');
+            localStorage.removeItem('sellerToken');
+            
             toast.success(data.message);
             navigate('/');
         }else{
             toast.error(data.message);
         }
        } catch (error) {
-        toast.error(error.message)
+        // Clear localStorage even if request fails
+        localStorage.removeItem('sellerLoggedIn');
+        localStorage.removeItem('sellerToken');
+        toast.error(error.response?.data?.message || error.message);
        }
     }
 

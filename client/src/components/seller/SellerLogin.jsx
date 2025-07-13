@@ -14,13 +14,19 @@ const SellerLogin = () => {
             event.preventDefault();
             const {data} =await axios.post('/api/seller/login',{email,password})
             if(data.success){
+                // Store seller authentication state
                 setIsSeller(true);
+                
+                // Store a flag in localStorage to help with token fallback
+                localStorage.setItem('sellerLoggedIn', 'true');
+                
+                toast.success(data.message);
                 navigate('/seller');
             }else{
                 toast.error(data.message );
             }
         } catch (error) {
-             toast.error(data.message );
+             toast.error(error.response?.data?.message || 'Login failed');
         }
         
     }
