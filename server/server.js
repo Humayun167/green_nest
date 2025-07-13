@@ -20,7 +20,7 @@ await connectDB();
 await connectCloudinary();
 
 // Allow multiple origin
-const allowedOrigins = ['http://localhost:5173']
+const allowedOrigins = ['http://localhost:5173','https://green-nest-frontend.vercel.app']
 
 
 // Middleware configaration
