@@ -97,10 +97,7 @@ if(searchQuery.length>0){
                 <NavLink onClick={()=>setOpen(false)} to='/'>Home</NavLink>
                 <NavLink onClick={()=>setOpen(false)} to='/products'>All Product</NavLink>
                 {user && 
-                   <>
-                   <NavLink onClick={()=>setOpen(false)} to='/profile'>Profile</NavLink>
-                   <NavLink onClick={()=>setOpen(false)} to='/my-orders'>My Orders</NavLink>
-                   </>
+                   <NavLink onClick={()=>setOpen(false)} to='/my-order'>My order</NavLink>
                 }
                 <NavLink onClick={()=>setOpen(false)} to='/contact'>Contact</NavLink>
                 

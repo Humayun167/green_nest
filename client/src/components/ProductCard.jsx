@@ -8,39 +8,41 @@ const ProductCard = ({ product }) => {
 
   return (
     product && (
-      <div onClick={()=>{navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0,0)}} className="border border-gray-500/20 rounded-md md:px-4 px-3 py-2 bg-white min-w-56 max-w-56 w-full">
-        <div className="group cursor-pointer flex items-center justify-center px-2">
+      <div onClick={()=>{navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0,0)}} className="border border-gray-500/20 rounded-md px-3 sm:px-4 py-3 bg-white w-full max-w-xs mx-auto hover:shadow-lg transition-shadow duration-200">
+        <div className="group cursor-pointer flex items-center justify-center px-2 mb-3">
           <img
-            className="group-hover:scale-105 transition max-w-26 md:max-w-36"
+            className="group-hover:scale-105 transition-transform duration-200 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain"
             src={product.image[0]}
             alt={product.name}
           />
         </div>
-        <div className="text-gray-500/60 text-sm">
-          <p>{product.category}</p>
-          <p className="text-gray-700 font-medium text-lg truncate w-full">
+        <div className="text-gray-500/60 text-xs sm:text-sm">
+          <p className="mb-1">{product.category}</p>
+          <p className="text-gray-700 font-medium text-sm sm:text-base md:text-lg truncate w-full mb-2">
             {product.name}
           </p>
-          <div className="flex items-center gap-0.5">
+          <div className="flex items-center gap-0.5 mb-3">
             {Array(5)
               .fill("")
               .map((_, i) => (
                 <img
                   key={i}
-                  className="md:w-3.5 w-3"
+                  className="w-3 sm:w-3.5"
                   src={i < 4 ? assets.star_icon : assets.star_dull_icon}
                   alt=""
                 />
               ))}
-            <p>(4)</p>
+            <p className="ml-1 text-xs sm:text-sm">(4)</p>
           </div>
-          <div className="flex items-end justify-between mt-3">
-            <p className="md:text-xl text-base font-medium text-primary">
-              {currency}{product.offerPrice}{" "}
-              <span className="text-gray-500/60 md:text-sm text-xs line-through">
+          <div className="flex items-end justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:gap-2">
+              <p className="text-base sm:text-lg md:text-xl font-medium text-primary">
+                {currency}{product.offerPrice}
+              </p>
+              <span className="text-gray-500/60 text-xs sm:text-sm line-through">
                 {currency}{product.price}
               </span>
-            </p>
+            </div>
             <div
               onClick={(e) => {
                 e.stopPropagation();
