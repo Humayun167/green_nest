@@ -93,7 +93,7 @@ if(searchQuery.length>0){
 
             {/* Mobile Menu */}
            { open && (
-            <div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}>
+            <div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden z-50`}>
                 <NavLink onClick={()=>setOpen(false)} to='/'>Home</NavLink>
                 <NavLink onClick={()=>setOpen(false)} to='/profile'>My profile</NavLink>
                 <NavLink onClick={()=>setOpen(false)} to='/products'>All Product</NavLink>
