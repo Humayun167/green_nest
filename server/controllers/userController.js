@@ -41,7 +41,18 @@ export const register =async (req, res) => {
 
         res.cookie('token', token, cookieOptions);
 
-        return res.json({success: true, user:{email:user.email,name:user.name,profileImage:user.profileImage}});
+        // Also send token in response for localStorage storage as fallback
+        return res.json({
+            success: true, 
+            user: {
+                _id: user._id,
+                email: user.email,
+                name: user.name,
+                profileImage: user.profileImage,
+                cartItems: user.cartItems
+            },
+            token: token
+        });
 
     } catch (error) {
         console.error( error.message);
@@ -61,7 +72,7 @@ export const login = async (req, res) => {
         const user = await User.findOne({email});
 
         if(!user) {
-            return res.json({success: false, message: "invalid email or pssword"});
+            return res.json({success: false, message: "Invalid email or password"});
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch) {
@@ -80,11 +91,22 @@ export const login = async (req, res) => {
 
         res.cookie('token', token, cookieOptions);
 
-        return res.json({success: true, user:{email:user.email,name:user.name,profileImage:user.profileImage}});
+        // Also send token in response for localStorage storage as fallback
+        return res.json({
+            success: true, 
+            user: {
+                _id: user._id,
+                email: user.email,
+                name: user.name,
+                profileImage: user.profileImage,
+                cartItems: user.cartItems
+            },
+            token: token
+        });
 
         
     } catch (error) {
-        console.error( error.message);
+        console.error('Login error:', error.message);
         return res.json({success: false, message: error.message});
     }
 } 

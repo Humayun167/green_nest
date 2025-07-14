@@ -18,8 +18,8 @@ axios.interceptors.request.use(
       config.headers.Authorization = `Bearer ${sellerToken}`;
     }
     
-    // Add user token to header if making user-related requests  
-    if (userToken && config.url.includes('/user')) {
+    // Add user token to header if making user-related requests or post requests
+    if (userToken && (config.url.includes('/user') || config.url.includes('/post'))) {
       config.headers.Authorization = `Bearer ${userToken}`;
     }
     
@@ -60,12 +60,17 @@ export const AppContextProvider = ({ children }) => {
   // Fetch User auth,user details, cart items
   const fetchUser = async ()=>{
     try {
-      const {data} = await axios.get("api/user/is-auth");
+      const {data} = await axios.get("/api/user/is-auth");
       if(data.success){
         setUser(data.user);
         setCartItems(data.user.cartItems);
+        console.log('User authentication successful:', data.user);
+      } else {
+        console.log('User authentication failed:', data.message);
+        setUser(null);
       }
     } catch (error) {
+      console.error('Error fetching user:', error.response?.data || error.message);
       setUser(null);
     }
   }
@@ -76,15 +81,19 @@ export const AppContextProvider = ({ children }) => {
   // Fetch All products
   const fetchProducts = async () => {
    try {
+    console.log('Fetching products...');
     const {data} = await axios.get("/api/product/list");
     if(data.success){
+      console.log('Products fetched successfully:', data.products.length, 'products');
       setProducts(data.products)
     }
     else{
+      console.error('Failed to fetch products:', data.message);
       toast.error(data.message)
     }
    } catch (error) {
-    
+    console.error('Error fetching products:', error.response?.data || error.message);
+    toast.error('Failed to load products');
    }
   };
 
@@ -148,6 +157,31 @@ export const AppContextProvider = ({ children }) => {
     return Math.floor(totalAmount * 100) / 100; // Round to 2 decimal places  
   }
 
+  // Logout function
+  const logout = async () => {
+    try {
+      const { data } = await axios.get('/api/user/logout');
+      if (data.success) {
+        // Clear localStorage token
+        localStorage.removeItem('userToken');
+        // Reset user state
+        setUser(null);
+        setCartItems({});
+        toast.success(data.message);
+        navigate('/');
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Even if server logout fails, clear local state
+      localStorage.removeItem('userToken');
+      setUser(null);
+      setCartItems({});
+      toast.success('Logged out successfully');
+      navigate('/');
+    }
+  };
 
   useEffect(() => {
     fetchUser()
@@ -190,7 +224,8 @@ export const AppContextProvider = ({ children }) => {
     getCartCount,
     getCartAmount,
     axios,
-    fetchProducts
+    fetchProducts,
+    logout
 
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

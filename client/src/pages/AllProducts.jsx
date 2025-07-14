@@ -5,17 +5,28 @@ import ProductCard from './../components/ProductCard';
 const AllProducts = () => {
 
     const {products ,searchQuery} = useAppContext();
-    const [filteredProducts, setFilteredProducts] = useState([])
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    
+    console.log('AllProducts render - products:', products.length, 'filtered:', filteredProducts.length);
+    
+    const inStockFilteredProducts = filteredProducts.filter((product)=>product.inStock);
+    console.log('AllProducts - In stock filtered products:', inStockFilteredProducts.length);
 
 
     useEffect(()=>{
+        console.log('AllProducts - Products changed:', products.length);
+        console.log('AllProducts - Search query:', searchQuery);
+        
         if(searchQuery.length>0){
-            setFilteredProducts(products.filter(
+            const filtered = products.filter(
                 product => product.name.toLowerCase().includes(searchQuery.toLowerCase())
-            ))}else{
-setFilteredProducts(products)
-            }
-         },[products, searchQuery])
+            );
+            console.log('AllProducts - Filtered by search:', filtered.length);
+            setFilteredProducts(filtered);
+        }else{
+            setFilteredProducts(products);
+        }
+    },[products, searchQuery])
 
     return (
         <div className='mt-16 flex flex-col'>

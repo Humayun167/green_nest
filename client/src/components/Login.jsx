@@ -13,23 +13,34 @@ const Login = () => {
 
     const onSubmitHandler = async (e)=>{
         try {
-            event.preventDefault();
+            e.preventDefault();
+            console.log('Attempting login/register with:', { email, state });
              
             const {data}= await axios.post(`/api/user/${state}`,{
                 name,email,password
             });
+            
+            console.log('Login/Register response:', data);
+            
             if(data.success){
-               navigate('/')
-               setUser(data.user);
+                // Store token in localStorage as fallback
+                if(data.token) {
+                    localStorage.setItem('userToken', data.token);
+                    console.log('Token stored in localStorage');
+                }
+                
+                setUser(data.user);
                 setShowUserLogin(false);
+                toast.success(state === 'login' ? 'Login successful!' : 'Account created successfully!');
+                navigate('/');
             }else{
-                  toast.error(data.message);
+                console.error('Login/Register failed:', data.message);
+                toast.error(data.message);
             }
         } catch (error) {
-            toast.error(data.message);
+            console.error('Login/Register error:', error);
+            toast.error(error.response?.data?.message || 'Something went wrong');
         }
-        
-     
     }
     return (
         <div onClick={()=>setShowUserLogin(false)} className='fixed top-0 left-0 bottom-0 right-0 z-30 flex items-center text-sm text-gray-600 bg-black/50'>

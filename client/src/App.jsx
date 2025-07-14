@@ -18,6 +18,10 @@ import SellerLayout from './pages/seller/SellerLayout';
 import AddProduct from './pages/seller/AddProduct';
 import ProductList from './pages/seller/ProductList';
 import Orders from './pages/seller/Orders';
+import SocialMedia from './pages/SocialMedia';
+import MyPosts from './pages/MyPosts';
+import AuthDebugger from './components/AuthDebugger';
+import ProductDebugger from './components/ProductDebugger';
 
 const App = () => {
 
@@ -40,6 +44,10 @@ const App = () => {
           <Route path='/add-address' element={<AddAddress/>}/> 
           <Route path='/my-orders' element={<MyOrders/>}/> 
           <Route path='/profile' element={<UserProfile/>}/> 
+          <Route path='/community' element={<SocialMedia/>}/> 
+          <Route path='/my-posts' element={<MyPosts/>}/>
+          <Route path='/debug-auth' element={<AuthDebugger/>}/>
+          <Route path='/debug-products' element={<ProductDebugger/>}/> 
           <Route path='/seller' element={isSeller ? <SellerLayout/> : <SellerLogin/>}>
             <Route index element={isSeller ? <AddProduct/> : null} />
             <Route path='product-list' element={<ProductList/>}/>
