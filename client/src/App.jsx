@@ -18,6 +18,9 @@ import SellerLayout from './pages/seller/SellerLayout';
 import AddProduct from './pages/seller/AddProduct';
 import ProductList from './pages/seller/ProductList';
 import Orders from './pages/seller/Orders';
+import UserProductRequests from './pages/seller/UserProductRequests';
+import AddProductRequest from './pages/AddProductRequest';
+import MyProductRequests from './pages/MyProductRequests';
 import SocialMedia from './pages/SocialMedia';
 import MyPosts from './pages/MyPosts';
 import AuthDebugger from './components/AuthDebugger';
@@ -44,6 +47,8 @@ const App = () => {
           <Route path='/add-address' element={<AddAddress/>}/> 
           <Route path='/my-orders' element={<MyOrders/>}/> 
           <Route path='/profile' element={<UserProfile/>}/> 
+          <Route path='/add-product-request' element={<AddProductRequest/>}/> 
+          <Route path='/my-product-requests' element={<MyProductRequests/>}/> 
           <Route path='/community' element={<SocialMedia/>}/> 
           <Route path='/my-posts' element={<MyPosts/>}/>
           <Route path='/debug-auth' element={<AuthDebugger/>}/>
@@ -51,7 +56,8 @@ const App = () => {
           <Route path='/seller' element={isSeller ? <SellerLayout/> : <SellerLogin/>}>
             <Route index element={isSeller ? <AddProduct/> : null} />
             <Route path='product-list' element={<ProductList/>}/>
-            <Route path='orders' element={<Orders></Orders>}/>           
+            <Route path='orders' element={<Orders></Orders>}/>
+            <Route path='user-requests' element={<UserProductRequests/>}/>           
           </Route>
         </Routes>
        </div>

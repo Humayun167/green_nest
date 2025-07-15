@@ -52,11 +52,13 @@ if(searchQuery.length>0){
                                 e.target.src = assets.profile_icon;
                             }}
                         />
-                        <ul className='hidden group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5 w-30 rounded-md text-sm z-40'>
+                        <ul className='hidden group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5 w-40 rounded-md text-sm z-40'>
                             <li onClick={()=> navigate("profile")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>Profile</li>
-                            <li onClick={()=> navigate("my-orders")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Order</li>
+                            <li onClick={()=> navigate("my-orders")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Orders</li>
+                            <li onClick={()=> navigate("add-product-request")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>Add Product</li>
+                            <li onClick={()=> navigate("my-product-requests")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Requests</li>
                             <li onClick={()=> navigate("my-posts")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Posts</li>
-                            <li onClick={logout} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>Logut</li>
+                            <li onClick={logout} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>Logout</li>
                         </ul>
 
                     </div>
@@ -84,7 +86,13 @@ if(searchQuery.length>0){
                 <NavLink onClick={()=>setOpen(false)} to='/products'>All Product</NavLink>
                 <NavLink onClick={()=>setOpen(false)} to='/community'>Community</NavLink>
                 {user && 
-                   <NavLink onClick={()=>setOpen(false)} to='/my-order'>My order</NavLink>
+                   <NavLink onClick={()=>setOpen(false)} to='/my-orders'>My Orders</NavLink>
+                }
+                {user && 
+                   <NavLink onClick={()=>setOpen(false)} to='/add-product-request'>Add Product</NavLink>
+                }
+                {user && 
+                   <NavLink onClick={()=>setOpen(false)} to='/my-product-requests'>My Requests</NavLink>
                 }
                 {user && 
                    <NavLink onClick={()=>setOpen(false)} to='/my-posts'>My Posts</NavLink>
