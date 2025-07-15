@@ -19,6 +19,7 @@ import AddProduct from './pages/seller/AddProduct';
 import ProductList from './pages/seller/ProductList';
 import Orders from './pages/seller/Orders';
 import UserProductRequests from './pages/seller/UserProductRequests';
+import CommunityPosts from './pages/seller/CommunityPosts';
 import AddProductRequest from './pages/AddProductRequest';
 import MyProductRequests from './pages/MyProductRequests';
 import SocialMedia from './pages/SocialMedia';
@@ -57,7 +58,8 @@ const App = () => {
             <Route index element={isSeller ? <AddProduct/> : null} />
             <Route path='product-list' element={<ProductList/>}/>
             <Route path='orders' element={<Orders></Orders>}/>
-            <Route path='user-requests' element={<UserProductRequests/>}/>           
+            <Route path='user-requests' element={<UserProductRequests/>}/>
+            <Route path='community-posts' element={<CommunityPosts/>}/>           
           </Route>
         </Routes>
        </div>

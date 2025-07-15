@@ -8,15 +8,22 @@ import {
     deleteComment, 
     updatePost, 
     deletePost, 
-    getPost 
+    getPost,
+    getAllPostsForSeller,
+    deletePostBySeller
 } from '../controllers/postController.js';
 import authUser from '../middlewares/authUser.js';
+import authSeller from '../middlewares/authSeller.js';
 import upload from '../middlewares/multer.js';
 
 const postRouter = express.Router();
 
 // Public routes (no authentication required)
 postRouter.get('/all', getAllPosts);
+
+// Seller routes (seller authentication required)
+postRouter.get('/seller/all', authSeller, getAllPostsForSeller);
+postRouter.delete('/seller/:postId', authSeller, deletePostBySeller);
 
 // Protected routes (authentication required)
 postRouter.post('/create', authUser, upload.single('image'), createPost);

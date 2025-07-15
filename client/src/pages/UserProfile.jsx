@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
+import { useNavigate } from 'react-router-dom';
 import { assets } from '../assets/assets';
 import toast from 'react-hot-toast';
 
 const UserProfile = () => {
     const { user, setUser, axios } = useAppContext();
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [orderCount, setOrderCount] = useState(0);
     
@@ -198,6 +200,39 @@ const UserProfile = () => {
                                 <p className="text-green-100">{user.email}</p>
                                 <p className="text-green-200 text-sm">Total Orders: {orderCount}</p>
                             </div>
+                        </div>
+                        
+                        {/* Action Buttons */}
+                        <div className="mt-6 flex flex-wrap gap-3">
+                            <button
+                                onClick={() => navigate('/my-orders')}
+                                className="flex items-center space-x-2 bg-white text-primary px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors border border-white/20"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                </svg>
+                                <span>My Orders</span>
+                            </button>
+                            
+                            <button
+                                onClick={() => navigate('/add-product-request')}
+                                className="flex items-center space-x-2 bg-white text-primary px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors border border-white/20"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                <span>Add Product Request</span>
+                            </button>
+                            
+                            <button
+                                onClick={() => navigate('/my-product-requests')}
+                                className="flex items-center space-x-2 bg-white text-primary px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors border border-white/20"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                                <span>My Requests</span>
+                            </button>
                         </div>
                     </div>
 

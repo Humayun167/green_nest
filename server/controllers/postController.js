@@ -375,6 +375,81 @@ const getPost = async (req, res) => {
     }
 };
 
+// Seller function to get all posts with admin privileges
+const getAllPostsForSeller = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        const posts = await Post.find()
+            .populate('userId', 'name profileImage email')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        const totalPosts = await Post.countDocuments();
+        const totalPages = Math.ceil(totalPosts / limit);
+
+        res.status(200).json({
+            success: true,
+            posts,
+            pagination: {
+                currentPage: page,
+                totalPages,
+                totalPosts,
+                hasNextPage: page < totalPages,
+                hasPrevPage: page > 1
+            }
+        });
+
+    } catch (error) {
+        console.error("Error fetching posts for seller:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching posts",
+            error: error.message
+        });
+    }
+};
+
+// Seller function to delete any post
+const deletePostBySeller = async (req, res) => {
+    try {
+        const { postId } = req.params;
+
+        const post = await Post.findById(postId);
+        if (!post) {
+            return res.status(404).json({ success: false, message: "Post not found" });
+        }
+
+        // Delete image from cloudinary if exists
+        if (post.image) {
+            try {
+                const publicId = post.image.split('/').pop().split('.')[0];
+                await cloudinary.uploader.destroy(`green_nest_posts/${publicId}`);
+            } catch (deleteError) {
+                console.error("Error deleting image from cloudinary:", deleteError);
+            }
+        }
+
+        await Post.findByIdAndDelete(postId);
+
+        res.status(200).json({
+            success: true,
+            message: "Post deleted successfully by seller"
+        });
+
+    } catch (error) {
+        console.error("Error deleting post by seller:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error deleting post",
+            error: error.message
+        });
+    }
+};
+
 export {
     createPost,
     getAllPosts,
@@ -384,5 +459,7 @@ export {
     deleteComment,
     updatePost,
     deletePost,
-    getPost
+    getPost,
+    getAllPostsForSeller,
+    deletePostBySeller
 };
