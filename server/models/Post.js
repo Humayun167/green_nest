@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const postSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
         required: true
     },
     content: {
@@ -18,7 +18,7 @@ const postSchema = new mongoose.Schema({
     likes: [{
         userId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'user'
         },
         createdAt: {
             type: Date,
@@ -28,7 +28,7 @@ const postSchema = new mongoose.Schema({
     comments: [{
         userId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'user',
             required: true
         },
         content: {
@@ -51,6 +51,6 @@ const postSchema = new mongoose.Schema({
     }
 }, { minimize: false, timestamps: true });
 
-const Post = mongoose.models.Post || mongoose.model("Post", postSchema);
+const Post = mongoose.models.post || mongoose.model("post", postSchema);
 
 export default Post;

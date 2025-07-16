@@ -55,6 +55,7 @@ if(searchQuery.length>0){
                         <ul className='hidden group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5 w-40 rounded-md text-sm z-40'>
                             <li onClick={()=> navigate("profile")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>Profile</li>
                             <li onClick={()=> navigate("my-orders")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Orders</li>
+                            <li onClick={()=> navigate("my-sales")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Sales</li>
                             <li onClick={()=> navigate("add-product-request")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>Add Product</li>
                             <li onClick={()=> navigate("my-product-requests")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Requests</li>
                             <li onClick={()=> navigate("my-posts")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Posts</li>
@@ -87,6 +88,9 @@ if(searchQuery.length>0){
                 <NavLink onClick={()=>setOpen(false)} to='/community'>Community</NavLink>
                 {user && 
                    <NavLink onClick={()=>setOpen(false)} to='/my-orders'>My Orders</NavLink>
+                }
+                {user && 
+                   <NavLink onClick={()=>setOpen(false)} to='/my-sales'>My Sales</NavLink>
                 }
                 {user && 
                    <NavLink onClick={()=>setOpen(false)} to='/add-product-request'>Add Product</NavLink>

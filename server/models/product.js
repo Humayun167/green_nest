@@ -29,6 +29,12 @@ const productSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    // Track which user originally submitted this product (if it came from UserProductRequest)
+    originalSubmitterId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        default: null,
+    },
 }, {timestamps: true});
 
 

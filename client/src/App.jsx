@@ -12,6 +12,7 @@ import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import AddAddress from './pages/AddAddress';
 import MyOrders from './pages/MyOrders';
+import MySalesOrders from './pages/MySalesOrders';
 import UserProfile from './pages/UserProfile';
 import SellerLogin from './components/seller/SellerLogin';
 import SellerLayout from './pages/seller/SellerLayout';
@@ -47,6 +48,7 @@ const App = () => {
           <Route path='/cart' element={<Cart/>}/> 
           <Route path='/add-address' element={<AddAddress/>}/> 
           <Route path='/my-orders' element={<MyOrders/>}/> 
+          <Route path='/my-sales' element={<MySalesOrders/>}/> 
           <Route path='/profile' element={<UserProfile/>}/> 
           <Route path='/add-product-request' element={<AddProductRequest/>}/> 
           <Route path='/my-product-requests' element={<MyProductRequests/>}/> 

@@ -79,7 +79,8 @@ export const approveProductRequest = async (req, res) => {
             offerPrice: request.offerPrice,
             image: request.image,
             category: request.category,
-            inStock: true
+            inStock: true,
+            originalSubmitterId: request.userId // Track who originally submitted this product
         };
 
         await Product.create(productData);
