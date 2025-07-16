@@ -13,6 +13,7 @@ const SellerLayout = () => {
         { name: "Orders", path: "/seller/orders", icon: assets.order_icon  },
         { name: "User Requests", path: "/seller/user-requests", icon: assets.box_icon },
         { name: "Community Posts", path: "/seller/community-posts", icon: assets.menu_icon },
+        { name: "All Users", path: "/seller/users", icon: assets.profile_icon },
     ];
 
     const logout = async()=>{

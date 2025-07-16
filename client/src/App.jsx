@@ -21,6 +21,7 @@ import ProductList from './pages/seller/ProductList';
 import Orders from './pages/seller/Orders';
 import UserProductRequests from './pages/seller/UserProductRequests';
 import CommunityPosts from './pages/seller/CommunityPosts';
+import AllUsers from './pages/seller/AllUsers';
 import AddProductRequest from './pages/AddProductRequest';
 import MyProductRequests from './pages/MyProductRequests';
 import SocialMedia from './pages/SocialMedia';
@@ -61,7 +62,8 @@ const App = () => {
             <Route path='product-list' element={<ProductList/>}/>
             <Route path='orders' element={<Orders></Orders>}/>
             <Route path='user-requests' element={<UserProductRequests/>}/>
-            <Route path='community-posts' element={<CommunityPosts/>}/>           
+            <Route path='community-posts' element={<CommunityPosts/>}/>
+            <Route path='users' element={<AllUsers/>}/>           
           </Route>
         </Routes>
        </div>

@@ -79,6 +79,9 @@ export const login = async (req, res) => {
             return res.json({success: false, message: "Invalid credentials"});
         }
 
+        // Update last login time
+        await User.findByIdAndUpdate(user._id, { lastLogin: new Date() });
+
         const token = jwt.sign({id:user._id}, process.env.JWT_SECRET,{expiresIn:'7d'} )
 
         const cookieOptions = {
@@ -99,7 +102,8 @@ export const login = async (req, res) => {
                 email: user.email,
                 name: user.name,
                 profileImage: user.profileImage,
-                cartItems: user.cartItems
+                cartItems: user.cartItems,
+                lastLogin: new Date()
             },
             token: token
         });
@@ -239,38 +243,107 @@ export const getUserOrderCount = async (req, res) => {
 // Upload profile image : /api/user/upload-image
 export const uploadProfileImage = async (req, res) => {
     try {
-        const { userId } = req;
-        
+        const userId = req.user.id;
+
         if (!req.file) {
             return res.json({ success: false, message: 'No image file provided' });
         }
 
-        // Upload to cloudinary
+        // Upload image to cloudinary
         const result = await cloudinary.uploader.upload(req.file.path, {
             resource_type: 'image',
-            folder: 'user_profiles', // organize images in a folder
-            transformation: [
-                { width: 400, height: 400, crop: 'fill' }, // resize and crop to square
-                { quality: 'auto', fetch_format: 'auto' } // optimize quality and format
-            ]
+            folder: 'greennest/profile-images'
         });
 
-        // Update user profile image
-        const updatedUser = await User.findByIdAndUpdate(
+        // Update user's profile image URL
+        const user = await User.findByIdAndUpdate(
             userId,
             { profileImage: result.secure_url },
             { new: true }
-        ).select("-password");
+        ).select('-password');
 
-        return res.json({ 
-            success: true, 
-            message: 'Profile image uploaded successfully',
-            user: updatedUser,
-            imageUrl: result.secure_url
+        if (!user) {
+            return res.json({ success: false, message: 'User not found' });
+        }
+
+        res.json({
+            success: true,
+            message: 'Profile image updated successfully',
+            imageUrl: result.secure_url,
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                profileImage: user.profileImage
+            }
+        });
+    } catch (error) {
+        console.error('Upload profile image error:', error);
+        res.json({ success: false, message: 'Server error' });
+    }
+};
+
+// Get all users for seller dashboard : /api/user/all-users
+export const getAllUsers = async (req, res) => {
+    try {
+        const { page = 1, limit = 10, search = '' } = req.query;
+        const skip = (page - 1) * limit;
+
+        // Build search query
+        let searchQuery = {};
+        if (search) {
+            searchQuery = {
+                $or: [
+                    { name: { $regex: search, $options: 'i' } },
+                    { email: { $regex: search, $options: 'i' } }
+                ]
+            };
+        }
+
+        // Get users with basic information (excluding password)
+        const users = await User.find(searchQuery)
+            .select('-password')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(parseInt(limit));
+
+        // Get total count for pagination
+        const totalUsers = await User.countDocuments(searchQuery);
+
+        // Get user statistics
+        const userStats = await User.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    totalUsers: { $sum: 1 },
+                    activeUsers: {
+                        $sum: {
+                            $cond: [
+                                { $gte: ['$lastLogin', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)] },
+                                1,
+                                0
+                            ]
+                        }
+                    }
+                }
+            }
+        ]);
+
+        res.json({
+            success: true,
+            users,
+            pagination: {
+                currentPage: parseInt(page),
+                totalPages: Math.ceil(totalUsers / limit),
+                totalUsers,
+                hasNext: skip + users.length < totalUsers,
+                hasPrev: page > 1
+            },
+            stats: userStats[0] || { totalUsers: 0, activeUsers: 0 }
         });
 
     } catch (error) {
-        console.error(error.message);
-        return res.json({ success: false, message: error.message });
+        console.error('Get all users error:', error);
+        res.json({ success: false, message: 'Server error' });
     }
 };
