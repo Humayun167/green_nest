@@ -183,7 +183,7 @@ const AI = () => {
                         AI Assistant
                     </h1>
                     <p className="text-lg text-gray-600">
-                        Ask me anything! I'm here to help with your questions.
+                        Ask me anything! I'm here to help with your questions 🥱.
                     </p>
                     {/* API Key Status */}
                     <div className="mt-2">
