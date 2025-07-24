@@ -175,30 +175,30 @@ const AI = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
+            <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
                 {/* Header */}
-                <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                <div className="text-center mb-6 sm:mb-8">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-4">
                         AI Assistant
                     </h1>
-                    <p className="text-lg text-gray-600">
+                    <p className="text-sm sm:text-base lg:text-lg text-gray-600 px-2">
                         Ask me anything! I'm here to help with your questions 🥱.
                     </p>
                     {/* API Key Status */}
                     <div className="mt-2">
                         {import.meta.env.VITE_GEMINI_API_KEY ? (
-                            <div className="flex items-center justify-center space-x-4">
-                                <span className="text-sm text-green-600">✅ API Key Loaded</span>
+                            <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4">
+                                <span className="text-xs sm:text-sm text-green-600">✅ API Key Loaded</span>
                                 <button
                                     onClick={testApiConnection}
-                                    className="px-3 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600"
+                                    className="px-3 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
                                 >
                                     Test API
                                 </button>
                             </div>
                         ) : (
-                            <span className="text-sm text-red-600">❌ API Key Missing</span>
+                            <span className="text-xs sm:text-sm text-red-600">❌ API Key Missing</span>
                         )}
                     </div>
                 </div>
@@ -206,46 +206,46 @@ const AI = () => {
                 {/* Chat Container */}
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                     {/* Chat History */}
-                    <div className="h-96 overflow-y-auto p-6 border-b border-gray-200">
+                    <div className="h-64 sm:h-80 md:h-96 overflow-y-auto p-3 sm:p-4 md:p-6 border-b border-gray-200">
                         {chatHistory.length === 0 ? (
-                            <div className="text-center text-gray-500 mt-16">
-                                <div className="text-6xl mb-4">🤖</div>
-                                <p className="text-xl">Start a conversation!</p>
-                                <p className="text-sm mt-2">Ask me about anything - technology, science, cooking, or general questions.</p>
-                                <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                            <div className="text-center text-gray-500 mt-8 sm:mt-12 md:mt-16">
+                                <div className="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4">🤖</div>
+                                <p className="text-lg sm:text-xl">Start a conversation!</p>
+                                <p className="text-xs sm:text-sm mt-2 px-2">Ask me about anything - technology, science, cooking, or general questions.</p>
+                                <div className="mt-3 sm:mt-4 p-2 sm:p-3 bg-blue-50 border border-blue-200 rounded-lg mx-2 sm:mx-0">
                                     <p className="text-xs text-blue-600">
                                         💡 <strong>Tip:</strong> If you see "service overloaded" errors, I'll automatically try different AI models and retry for you!
                                     </p>
                                 </div>
                             </div>
                         ) : (
-                            <div className="space-y-4">
+                            <div className="space-y-3 sm:space-y-4">
                                 {chatHistory.map((chat, index) => (
                                     <div
                                         key={index}
                                         className={`flex ${chat.type === 'user' ? 'justify-end' : 'justify-start'}`}
                                     >
                                         <div
-                                            className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                                            className={`max-w-[85%] sm:max-w-xs lg:max-w-md px-3 sm:px-4 py-2 rounded-lg ${
                                                 chat.type === 'user'
                                                     ? 'bg-blue-500 text-white'
                                                     : 'bg-gray-200 text-gray-800'
                                             }`}
                                         >
-                                            <p className="whitespace-pre-wrap">{chat.message}</p>
+                                            <p className="whitespace-pre-wrap text-sm sm:text-base break-words">{chat.message}</p>
                                         </div>
                                     </div>
                                 ))}
                                 {isLoading && (
                                     <div className="flex justify-start">
-                                        <div className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg">
+                                        <div className="bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg">
                                             <div className="flex items-center space-x-2">
                                                 <div className="flex space-x-1">
                                                     <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
                                                     <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
                                                     <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
                                                 </div>
-                                                <span className="text-sm">AI is thinking...</span>
+                                                <span className="text-xs sm:text-sm">AI is thinking...</span>
                                             </div>
                                         </div>
                                     </div>
@@ -255,20 +255,20 @@ const AI = () => {
                     </div>
 
                     {/* Input Form */}
-                    <div className="p-6">
-                        <form onSubmit={handleSubmit} className="flex space-x-4">
+                    <div className="p-3 sm:p-4 md:p-6">
+                        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
                             <input
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 placeholder="Ask me anything..."
-                                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="flex-1 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                                 disabled={isLoading}
                             />
                             <button
                                 type="submit"
                                 disabled={isLoading || !input.trim()}
-                                className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm sm:text-base"
                             >
                                 {isLoading ? 'Sending...' : 'Send'}
                             </button>
@@ -276,10 +276,10 @@ const AI = () => {
                         
                         {/* Clear Chat Button */}
                         {chatHistory.length > 0 && (
-                            <div className="mt-4 text-center">
+                            <div className="mt-3 sm:mt-4 text-center">
                                 <button
                                     onClick={clearChat}
-                                    className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="px-4 py-2 text-xs sm:text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
                                 >
                                     Clear Chat
                                 </button>
@@ -289,21 +289,21 @@ const AI = () => {
                 </div>
 
                 {/* Features */}
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                        <div className="text-3xl mb-3">🧠</div>
-                        <h3 className="text-lg font-semibold mb-2">Smart Answers</h3>
-                        <p className="text-gray-600 text-sm">Get intelligent responses to your questions powered by Google's Gemini AI</p>
+                <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md text-center">
+                        <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">🧠</div>
+                        <h3 className="text-base sm:text-lg font-semibold mb-1 sm:mb-2">Smart Answers</h3>
+                        <p className="text-gray-600 text-xs sm:text-sm">Get intelligent responses to your questions powered by Google's Gemini AI</p>
                     </div>
-                    <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                        <div className="text-3xl mb-3">💬</div>
-                        <h3 className="text-lg font-semibold mb-2">Natural Conversation</h3>
-                        <p className="text-gray-600 text-sm">Chat naturally like you're talking to a knowledgeable friend</p>
+                    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md text-center">
+                        <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">💬</div>
+                        <h3 className="text-base sm:text-lg font-semibold mb-1 sm:mb-2">Natural Conversation</h3>
+                        <p className="text-gray-600 text-xs sm:text-sm">Chat naturally like you're talking to a knowledgeable friend</p>
                     </div>
-                    <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                        <div className="text-3xl mb-3">⚡</div>
-                        <h3 className="text-lg font-semibold mb-2">Fast Responses</h3>
-                        <p className="text-gray-600 text-sm">Get quick and accurate answers to help you solve problems efficiently</p>
+                    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md text-center sm:col-span-2 lg:col-span-1">
+                        <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">⚡</div>
+                        <h3 className="text-base sm:text-lg font-semibold mb-1 sm:mb-2">Fast Responses</h3>
+                        <p className="text-gray-600 text-xs sm:text-sm">Get quick and accurate answers to help you solve problems efficiently</p>
                     </div>
                 </div>
             </div>
