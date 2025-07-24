@@ -28,6 +28,7 @@ import SocialMedia from './pages/SocialMedia';
 import MyPosts from './pages/MyPosts';
 import AuthDebugger from './components/AuthDebugger';
 import ProductDebugger from './components/ProductDebugger';
+import AI from './pages/AI';
 
 const App = () => {
 
@@ -55,6 +56,7 @@ const App = () => {
           <Route path='/my-product-requests' element={<MyProductRequests/>}/> 
           <Route path='/community' element={<SocialMedia/>}/> 
           <Route path='/my-posts' element={<MyPosts/>}/>
+          <Route path='/ask' element={<AI/>}/>
           <Route path='/debug-auth' element={<AuthDebugger/>}/>
           <Route path='/debug-products' element={<ProductDebugger/>}/> 
           <Route path='/seller' element={isSeller ? <SellerLayout/> : <SellerLogin/>}>
