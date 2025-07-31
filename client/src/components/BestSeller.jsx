@@ -14,7 +14,7 @@ const BestSeller = () => {
     const displayProducts = inStockProducts.slice(0,5);
     
     return (
-        <div className='mt-16'>
+        <div className='mt-16 mb-20'>
             <p className='text-2xl md:text-3xl font-medium'>Best seller</p>
             
             {/* Debug info - remove this in production */}

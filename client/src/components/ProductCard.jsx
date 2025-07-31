@@ -51,7 +51,7 @@ const ProductCard = ({ product }) => {
             >
               {!cartItems[product._id] ? (
                 <button
-                  className="flex items-center justify-center gap-1 bg-primary border border-primary md:w-[80px] w-[64px] h-[34px] rounded text-white font-medium cursor-pointer"
+                  className="flex items-center justify-center gap-1 bg-primary border border-primary md:w-[80px] w-[64px] h-[34px] rounded text-white font-medium cursor-pointer hover:bg-primary-dull transition-colors duration-200"
                   onClick={() => addToCart(product._id)}
                 >
                   <img src={assets.cart_icon} alt="cart_icon" />
@@ -63,18 +63,18 @@ const ProductCard = ({ product }) => {
                     onClick={() => {
                       removeFromCart(product._id);
                     }}
-                    className="cursor-pointer text-md px-2 h-full"
+                    className="cursor-pointer text-md px-2 h-full text-white hover:bg-primary transition-colors duration-200"
                   >
                     -
                   </button>
-                  <span className="w-5 text-center">
+                  <span className="w-5 text-center text-white font-medium">
                     {cartItems[product._id]}
                   </span>
                   <button
                     onClick={() => {
                       addToCart(product._id);
                     }}
-                    className="cursor-pointer text-md px-2 h-full"
+                    className="cursor-pointer text-md px-2 h-full text-white hover:bg-primary transition-colors duration-200"
                   >
                     +
                   </button>
