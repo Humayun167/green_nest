@@ -68,8 +68,16 @@ const AddAddress = () => {
 
     return (
         <div className='mt-16 pb-16'>
-            <p className='text-2xl md:text-3xl text-gray-500'>Add Shipping <span
-            className='font-semibold text-primary'>Address</span></p>
+            <div className="flex justify-between items-center mb-6">
+                <p className='text-2xl md:text-3xl text-gray-500'>Add Shipping <span
+                className='font-semibold text-primary'>Address</span></p>
+                <button
+                    onClick={() => navigate('/manage-addresses')}
+                    className="text-primary hover:text-primary-dull transition text-sm"
+                >
+                    Manage all addresses →
+                </button>
+            </div>
             <div className='flex flex-col-reverse md:flex-row justify-between mt-10'>
                 <div className='flex-1 max-w-md'>
                     <form onSubmit={onSubmitHandler} className='space-y-3 mt-6 text-sm' >

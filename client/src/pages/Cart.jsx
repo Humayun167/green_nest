@@ -92,6 +92,34 @@ const Cart = () => {
     }
   };
 
+  const handleDeleteAddress = async (addressId) => {
+    if (!window.confirm('Are you sure you want to delete this address?')) {
+      return;
+    }
+
+    try {
+      const { data } = await axios.delete(`/api/address/delete/${addressId}`);
+      
+      if (data.success) {
+        toast.success(data.message);
+        // Update the addresses list
+        setAddresses(prev => prev.filter(addr => addr._id !== addressId));
+        
+        // If the deleted address was selected, select another one or clear selection
+        if (selectedAddress && selectedAddress._id === addressId) {
+          const remainingAddresses = addresses.filter(addr => addr._id !== addressId);
+          setSelectedAddress(remainingAddresses.length > 0 ? remainingAddresses[0] : null);
+        }
+        
+        setShowAddress(false);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
+  };
+
   useEffect(() => {
     if (products.length > 0 && cartItems) {
       getCart();
@@ -219,26 +247,50 @@ const Cart = () => {
               Change
             </button>
             {showAddress && (
-              <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full">
+              <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full z-10 max-h-60 overflow-y-auto">
                 {addresses.map((address, index) => (
-                  <p
+                  <div
                     key={index}
-                    onClick={() => {
-                      setSelectedAddress(address);
-                      setShowAddress(false);
-                    }}
-                    className="text-gray-500 p-2 hover:bg-gray-100 cursor-pointer"
+                    className="flex justify-between items-center p-2 hover:bg-gray-100 group"
                   >
-                    {address.street}, {address.city}, {address.state},
-                    {address.country}
-                  </p>
+                    <p
+                      onClick={() => {
+                        setSelectedAddress(address);
+                        setShowAddress(false);
+                      }}
+                      className="text-gray-500 cursor-pointer flex-1 truncate"
+                    >
+                      {address.street}, {address.city}, {address.state},
+                      {address.country}
+                    </p>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteAddress(address._id);
+                      }}
+                      className="text-red-500 hover:text-red-700 ml-2 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      title="Delete address"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
                 ))}
-                <p
-                  onClick={() => navigate("/add-address")}
-                  className="text-primary text-center cursor-pointer p-2 hover:bg-primary-dull"
-                >
-                  Add address
-                </p>
+                <div className="border-t border-gray-200">
+                  <p
+                    onClick={() => navigate("/add-address")}
+                    className="text-primary text-center cursor-pointer p-2 hover:bg-primary-dull"
+                  >
+                    Add address
+                  </p>
+                  <p
+                    onClick={() => navigate("/manage-addresses")}
+                    className="text-primary text-center cursor-pointer p-2 hover:bg-primary-dull border-t border-gray-100"
+                  >
+                    Manage all addresses
+                  </p>
+                </div>
               </div>
             )}
           </div>

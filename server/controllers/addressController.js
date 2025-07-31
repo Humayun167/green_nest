@@ -29,3 +29,28 @@ export const getAddress = async(req,res)=>{
         res.json({success: false, message: error.message});
     }
 }
+
+// Delete address: /api/address/delete/:id
+
+export const deleteAddress = async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const userId = req.userId;
+        
+        // Find the address and check if it belongs to the user
+        const address = await Address.findById(id);
+        if (!address) {
+            return res.json({success: false, message: "Address not found"});
+        }
+        
+        if (address.userId !== userId) {
+            return res.json({success: false, message: "Unauthorized to delete this address"});
+        }
+        
+        await Address.findByIdAndDelete(id);
+        res.json({success:true, message:"Address deleted successfully"});
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message});
+    }
+}

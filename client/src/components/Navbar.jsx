@@ -62,6 +62,7 @@ if(searchQuery.length>0){
                             <li onClick={()=> navigate("profile")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>Profile</li>
                             <li onClick={()=> navigate("my-orders")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Orders</li>
                             <li onClick={()=> navigate("my-sales")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Sales</li>
+                            <li onClick={()=> navigate("manage-addresses")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Addresses</li>
                             <li onClick={()=> navigate("add-product-request")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>Add Product</li>
                             <li onClick={()=> navigate("my-product-requests")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Requests</li>
                             <li onClick={()=> navigate("my-posts")} className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'>My Posts</li>
@@ -97,6 +98,9 @@ if(searchQuery.length>0){
                 }
                 {user && 
                    <NavLink onClick={()=>setOpen(false)} to='/my-sales'>My Sales</NavLink>
+                }
+                {user && 
+                   <NavLink onClick={()=>setOpen(false)} to='/manage-addresses'>My Addresses</NavLink>
                 }
                 {user && 
                    <NavLink onClick={()=>setOpen(false)} to='/add-product-request'>Add Product</NavLink>

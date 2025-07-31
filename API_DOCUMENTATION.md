@@ -464,6 +464,30 @@ Get user's saved addresses.
 }
 ```
 
+### DELETE `/delete/:id`
+Delete a specific address.
+
+**Headers:** `Authorization: Bearer <token>` (or cookie)
+
+**URL Parameters:**
+- `id` (string, required): The ID of the address to delete
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Address deleted successfully"
+}
+```
+
+**Error Response:**
+```json
+{
+  "success": false,
+  "message": "Address not found" | "Unauthorized to delete this address"
+}
+```
+
 ---
 
 ## Seller Routes (`/api/seller`)
