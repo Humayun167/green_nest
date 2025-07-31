@@ -464,6 +464,59 @@ Get user's saved addresses.
 }
 ```
 
+### PUT `/update/:id`
+Update a specific address.
+
+**Headers:** `Authorization: Bearer <token>` (or cookie)
+
+**URL Parameters:**
+- `id` (string, required): The ID of the address to update
+
+**Request Body:**
+```json
+{
+  "address": {
+    "firstName": "string (required)",
+    "lastName": "string (required)",
+    "email": "string (required)",
+    "street": "string (required)",
+    "city": "string (required)",
+    "state": "string (required)",
+    "zipcode": "string (required)",
+    "country": "string (required)",
+    "phone": "string (required)"
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Address updated successfully",
+  "address": {
+    "_id": "string",
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string",
+    "street": "string",
+    "city": "string",
+    "state": "string",
+    "zipcode": "string",
+    "country": "string",
+    "phone": "string"
+  }
+}
+```
+
+**Error Response:**
+```json
+{
+  "success": false,
+  "message": "Address not found" | "Unauthorized to update this address"
+}
+```
+
 ### DELETE `/delete/:id`
 Delete a specific address.
 

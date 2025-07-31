@@ -11,6 +11,7 @@ import ProductCategory from './pages/ProductCategory';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import AddAddress from './pages/AddAddress';
+import EditAddress from './pages/EditAddress';
 import ManageAddresses from './pages/ManageAddresses';
 import MyOrders from './pages/MyOrders';
 import MySalesOrders from './pages/MySalesOrders';
@@ -50,6 +51,7 @@ const App = () => {
           <Route path='/products/:category/:id' element={<ProductDetails/>}/> 
           <Route path='/cart' element={<Cart/>}/> 
           <Route path='/add-address' element={<AddAddress/>}/> 
+          <Route path='/edit-address/:id' element={<EditAddress/>}/> 
           <Route path='/manage-addresses' element={<ManageAddresses/>}/> 
           <Route path='/my-orders' element={<MyOrders/>}/> 
           <Route path='/my-sales' element={<MySalesOrders/>}/> 

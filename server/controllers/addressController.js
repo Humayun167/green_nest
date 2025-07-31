@@ -30,6 +30,42 @@ export const getAddress = async(req,res)=>{
     }
 }
 
+// Update address: /api/address/update/:id
+
+export const updateAddress = async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const { address } = req.body;
+        const userId = req.userId;
+        
+        // Find the address and check if it belongs to the user
+        const existingAddress = await Address.findById(id);
+        if (!existingAddress) {
+            return res.json({success: false, message: "Address not found"});
+        }
+        
+        if (existingAddress.userId !== userId) {
+            return res.json({success: false, message: "Unauthorized to update this address"});
+        }
+        
+        // Update the address
+        const updatedAddress = await Address.findByIdAndUpdate(
+            id, 
+            { ...address, userId }, 
+            { new: true }
+        );
+        
+        res.json({
+            success: true, 
+            message: "Address updated successfully",
+            address: updatedAddress
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message});
+    }
+}
+
 // Delete address: /api/address/delete/:id
 
 export const deleteAddress = async(req,res)=>{
