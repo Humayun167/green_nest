@@ -8,10 +8,10 @@ const ProductCard = ({ product }) => {
 
   return (
     product && (
-      <div onClick={()=>{navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0,0)}} className="border border-gray-500/20 rounded-md px-3 sm:px-4 py-3 bg-white w-full max-w-xs mx-auto hover:shadow-lg transition-shadow duration-200">
-        <div className="group cursor-pointer flex items-center justify-center px-2 mb-3">
+      <div onClick={()=>{navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0,0)}} className="border border-gray-500/20 rounded-2xl px-3 sm:px-4 py-3 bg-white w-full max-w-xs mx-auto hover:shadow-lg transition-shadow duration-200">
+        <div className=" group cursor-pointer flex items-center justify-center px-2 mb-3">
           <img
-            className="group-hover:scale-105 transition-transform duration-200 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain"
+            className="rounded-2xl group-hover:scale-105 transition-transform duration-200 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain"
             src={product.image[0]}
             alt={product.name}
           />
