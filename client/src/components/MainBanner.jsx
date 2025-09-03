@@ -5,11 +5,11 @@ const MainBanner = () => {
   return (
     <div className="relative">
       <img
-        className="w-full hidden md:block"
+        className= "w-full rounded-2xl hidden md:block"
         src={assets.main_banner_bg}
         alt=""
       />
-      <img className="w-full md:hidden" src={assets.main_banner_bg_sm} alt="" />
+      <img className="w-full rounded-2xl md:hidden" src={assets.main_banner_bg_sm} alt="" />
       <div className="absolute inset-0 flex flex-col items-center md:items-start justify-end md:justify-center pb-24 md:pl-18 lg:pl-24">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold md:text-left max-w-72 md:max-w-80 lg:max-w-105 leading-tight lg:leading-15">
          Discover, Grow, and Share Plants with Nature Lovers
