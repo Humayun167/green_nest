@@ -24,6 +24,15 @@ await connectCloudinary();
 // Allow multiple origin
 const allowedOrigins = [
     'http://localhost:5173',
+    'http://localhost:8081', // React Native/Expo default port
+    'http://localhost:8082', // React Native/Expo alternative port
+    'http://localhost:8083', // React Native/Expo additional port
+    'http://10.0.2.2:8081',  // Android emulator
+    'http://10.0.2.2:8082',  // Android emulator alternative port
+    'http://10.0.2.2:8083',  // Android emulator additional port
+    'http://192.168.1.100:8081', // Replace with your local IP for physical devices
+    'http://192.168.1.100:8082', // Replace with your local IP for physical devices alternative port
+    'http://192.168.1.100:8083', // Replace with your local IP for physical devices additional port
     'https://green-nest-frontend.vercel.app',
     process.env.FRONTEND_URL // Add environment variable for dynamic frontend URL
 ].filter(Boolean); // Filter out undefined values

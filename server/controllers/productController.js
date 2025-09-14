@@ -60,3 +60,35 @@ export const changeStock = async (req, res) => {
     }
 }
 
+// search products: /api/product/search
+export const searchProducts = async (req, res) => {
+    try {
+        const { query, category, limit = 10 } = req.query;
+        
+        let searchCriteria = { inStock: true };
+        
+        if (query) {
+            // Create a case-insensitive search for name and description
+            const searchRegex = new RegExp(query, 'i');
+            searchCriteria.$or = [
+                { name: searchRegex },
+                { description: { $elemMatch: { $regex: searchRegex } } },
+                { category: searchRegex }
+            ];
+        }
+        
+        if (category) {
+            searchCriteria.category = new RegExp(category, 'i');
+        }
+        
+        const products = await Product.find(searchCriteria)
+            .limit(parseInt(limit))
+            .sort({ createdAt: -1 });
+            
+        res.json({ success: true, products });
+    } catch (error) {
+        console.log(error.message);
+        return res.json({ success: false, message: error.message });
+    }
+}
+

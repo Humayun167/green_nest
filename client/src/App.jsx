@@ -31,6 +31,7 @@ import MyPosts from './pages/MyPosts';
 import AuthDebugger from './components/AuthDebugger';
 import ProductDebugger from './components/ProductDebugger';
 import AI from './pages/AI';
+import ProductChatbot from './components/ProductChatbot';
 
 const App = () => {
 
@@ -74,6 +75,8 @@ const App = () => {
         </Routes>
        </div>
       {!isSellerPath && <Footer/>}
+      {/* Add chatbot - available on all pages except seller pages */}
+      {!isSellerPath && <ProductChatbot />}
     </div>
   );
 };
